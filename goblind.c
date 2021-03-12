@@ -13,13 +13,8 @@
 
 #include "g_log.h"
 #include "upgrade.h"
+#include "static_files.h"
 
-const char *goblin_file = "/root/goblin";
-const char *goblin_md5_file = "/root/goblin.md5";
-
-const char *working_dir = "/root";
-const char *fifo_file = "/root/goblin_fifo";
-const char *_log_file = "/root/goblind.log";
 
 
 #define NO_DATA_CNT_MAX 10
@@ -67,7 +62,7 @@ static void Skeleton_daemon()
 
     /* Change the working directory to the root directory */
     /* or another appropriated directory */
-    chdir(working_dir);
+    chdir("/root");
 
     /* Close all open file descriptors */
     for (int x = sysconf(_SC_OPEN_MAX); x>=0; x--)
@@ -156,8 +151,23 @@ void Restart_goblin()
     Kill_goblin();
     Read_fifo();        // clear fifo
     Check_upgrade();
+	if(access(goblin_file, F_OK) != 0)
+	{
+		log_printf("Can't find '%s'. Recover from '%s'", goblin_file,goblin_file_old);
+    	if(access(goblin_file_old, F_OK) != 0)
+	    {
+    		log_printf("Can't find '%s'. Exit.", goblin_file_old);
+            exit(3);
+        }
+        if(rename(goblin_file_old,goblin_file)==-1)
+        {
+            log_printf("Move '%s' to '%s' failed",goblin_file_old,goblin_file);
+            exit(3);
+        }
+        rename(goblin_md5_file_old,goblin_md5_file);
+	}
     chmod (goblin_file, S_IRWXU);
-   	log_printf("Load '%s'", goblin_file);
+   	log_printf("Start to run '%s'", goblin_file);
     system(goblin_file);
     sleep(3);
 }
@@ -181,15 +191,33 @@ int main(int argc, char **argv)
     {
         Skeleton_daemon();
     }
-    chdir(working_dir);
-    if(Set_log_file(_log_file)!=0)exit(1);
-    Set_goblin_file(goblin_file, goblin_md5_file);
-
+    chdir(goblin_path);
+    if(Set_log_file(goblind_log_file)!=0)exit(1);
+ 
     log_printf("====================================");
-    log_printf("goblind ver 1.0.0 start");
-
+    log_printf("goblind (ver 1.0.0) starts");
+    
+    #define T_D_A 256
+    int tda=strlen(goblin_temp_path);
+    if(tda>(T_D_A-2))
+    {
+		log_printf("Path temp_dir '%s' is too long (>%d)", goblin_temp_path, T_D_A-2);
+        exit(2);
+    }
+    char temp_dir_access[T_D_A];
+    memcpy(temp_dir_access,goblin_temp_path,tda);
+    temp_dir_access[tda]='/';
+    temp_dir_access[tda+1]='\0';
+    if(access(temp_dir_access, F_OK) != 0)
+	{
+		if(mkdir(goblin_temp_path, S_IRWXU) != 0)
+		{
+			log_printf("goblind could not mkdir '%s': errno=%d", goblin_temp_path, errno);
+            exit(2);
+		}
+	}
     // create fifo
-	if(access(fifo_file, F_OK) == -1)
+	if(access(fifo_file, F_OK) != 0)
 	{
 		if(mkfifo(fifo_file, 0600) != 0)
 		{

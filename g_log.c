@@ -14,12 +14,12 @@
 
 static const char *_goblin_user = "/etc/config/goblin_user";
 
-static const char *_log_file;
+static const char *goblind_log_file;
 
 int Set_log_file(const char * file)
 {
-    _log_file=file;
-    FILE * fd = fopen (_log_file, "a");
+    goblind_log_file=file;
+    FILE * fd = fopen (goblind_log_file, "a");
     if(fd == NULL)
     {
         exit(-1);
@@ -138,7 +138,7 @@ char * Get_current_time()
 
 int log_puts(char * str)
 {
-    FILE * log_fd = fopen(_log_file, "a");
+    FILE * log_fd = fopen(goblind_log_file, "a");
     if(log_fd==NULL)
     {
         return -1;

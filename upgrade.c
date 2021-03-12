@@ -4,22 +4,12 @@
 #include <ctype.h>
 #include <unistd.h>
 
+#include "static_files.h"
+
 #include "upgrade.h"
 
 #include "g_log.h"
 
-static const char *_goblin_file;
-static const char *_goblin_md5_file;
-void Set_goblin_file(const char * goblin, const char *goblin_md5)
-{
-    _goblin_file=goblin;
-    _goblin_md5_file=goblin_md5;
-}
-
-const char * goblin_path = "/root";
-const char * goblin_temp_path = "/root/goblin_temp";
-const char * goblin_temp_file = "/root/goblin_temp/goblin";
-const char * goblin_temp_md5_file = "/root/goblin_temp/goblin.md5";
 const char * md5s ="md5sum -c goblin.md5";
 
 int Check_MD5()
@@ -55,37 +45,30 @@ void Check_upgrade()
     log_printf("MD5 matched");
     log_printf("Moving files...");
 
-    char name_new[1024];
-
-    // goblin => goblin.old
-    strcpy(name_new, _goblin_file);
-    strcat(name_new, ".old");
-    if(rename(_goblin_file,name_new)==-1)
+    if(rename(goblin_file,goblin_file_old)==-1)
     {
-        log_printf("Move '%s' to '%s' failed",_goblin_file,name_new);
+        log_printf("Move '%s' to '%s' failed",goblin_file,goblin_file_old);
         return;
     }
     
     // temp/goblin => goblin
-    if(rename(goblin_temp_file,_goblin_file)==-1)
+    if(rename(goblin_temp_file,goblin_file)==-1)
     {
-        log_printf("Move '%s' to '%s' failed",goblin_temp_file,_goblin_file);
+        log_printf("Move '%s' to '%s' failed",goblin_temp_file,goblin_file);
         return;
     }
 
     // goblin.md5 => goblin.md5.old
-    strcpy(name_new, _goblin_md5_file);
-    strcat(name_new, ".old");
-    if(rename(_goblin_md5_file,name_new)==-1)
+    if(rename(goblin_md5_file,goblin_md5_file_old)==-1)
     {
-        log_printf("Move '%s' to '%s' failed",_goblin_md5_file,name_new);
+        log_printf("Move '%s' to '%s' failed",goblin_md5_file,goblin_md5_file_old);
         return;
     }
     
     // temp/goblin.md5 => goblin.md5
-    if(rename(goblin_temp_md5_file,_goblin_md5_file)==-1)
+    if(rename(goblin_temp_md5_file,goblin_md5_file)==-1)
     {
-        log_printf("Move '%s' to '%s' failed",goblin_temp_md5_file,_goblin_md5_file);
+        log_printf("Move '%s' to '%s' failed",goblin_temp_md5_file,goblin_md5_file);
         return;
     }
 
