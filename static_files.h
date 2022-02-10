@@ -1,7 +1,6 @@
 #ifndef __STATIC_FILES_H__
 #define __STATIC_FILES_H__
 
-extern const char * goblin_path;
 extern const char * goblin_file;
 extern const char * goblin_md5_file;
 extern const char * goblin_file_old;
