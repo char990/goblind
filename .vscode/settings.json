@@ -7,6 +7,19 @@
         "unistd.h": "c",
         "stdio.h": "c",
         "reboot.h": "c",
-        "md5.h": "c"
+        "md5.h": "c",
+        "fstream": "c",
+        "istream": "c",
+        "*.tcc": "c",
+        "chrono": "c",
+        "ctime": "c",
+        "iomanip": "c",
+        "limits": "c",
+        "numeric": "c",
+        "ratio": "c",
+        "streambuf": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c"
     }
 }

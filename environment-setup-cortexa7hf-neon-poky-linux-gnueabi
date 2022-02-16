@@ -1,0 +1,48 @@
+export SDKTARGETSYSROOT=/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot
+export PATH=/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native/usr/bin:/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native/usr/sbin:/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native/bin:/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native/sbin:/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native/usr/bin/arm-fslc-linux-gnueabi:$PATH
+export CCACHE_PATH=/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native/usr/bin:/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native/usr/bin/arm-fslc-linux-gnueabi:$CCACHE_PATH
+#export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT
+#export PKG_CONFIG_PATH=$SDKTARGETSYSROOT/usr/lib/pkgconfig
+#export CONFIG_SITE=/opt/myir-imx-fb/core/4.1.15-2.0.1/site-config-cortexa7hf-neon-poky-linux-gnueabi
+export OECORE_NATIVE_SYSROOT="/home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native"
+export OECORE_TARGET_SYSROOT="$SDKTARGETSYSROOT"
+export OECORE_ACLOCAL_OPTS="-I /home/build/project_6ull/build_myir/build_imx6ull_warrior/tmp/work/cortexa7t2hf-neon-fslc-linux-gnueabi/goblin/git-r0/recipe-sysroot-native/usr/share/aclocal"
+unset command_not_found_handle
+export CC="arm-fslc-linux-gnueabi-gcc  -march=armv7ve -marm -mfpu=neon  -mfloat-abi=hard -mcpu=cortex-a7 --sysroot=$SDKTARGETSYSROOT"
+export CXX="arm-fslc-linux-gnueabi-g++  -march=armv7ve -marm -mfpu=neon  -mfloat-abi=hard -mcpu=cortex-a7 --sysroot=$SDKTARGETSYSROOT"
+export CPP="arm-fslc-linux-gnueabi-gcc -E  -march=armv7ve -marm -mfpu=neon  -mfloat-abi=hard -mcpu=cortex-a7 --sysroot=$SDKTARGETSYSROOT"
+export AS="arm-fslc-linux-gnueabi-as "
+export LD="arm-fslc-linux-gnueabi-ld  --sysroot=$SDKTARGETSYSROOT"
+export GDB="arm-linux-gnueabihf-gdb"
+export STRIP=arm-fslc-linux-gnueabi-strip
+export RANLIB=arm-fslc-linux-gnueabi-ranlib
+export OBJCOPY=arm-fslc-linux-gnueabi-objcopy
+export OBJDUMP=arm-fslc-linux-gnueabi-objdump
+export AR=arm-fslc-linux-gnueabi-ar
+export NM=arm-fslc-linux-gnueabi-nm
+export M4=m4
+export TARGET_PREFIX=arm-fslc-linux-gnueabi-
+export CONFIGURE_FLAGS="--target=arm-fslc-linux-gnueabi --host=arm-fslc-linux-gnueabi --build=x86_64-linux --with-libtool-sysroot=$SDKTARGETSYSROOT"
+#export CFLAGS=" -O0 -pipe -g -feliminate-unused-debug-types "
+export CFLAGS=" -pipe -g -feliminate-unused-debug-types "
+#export CXXFLAGS=" -O0 -pipe -g -feliminate-unused-debug-types "
+export CXXFLAGS=" -pipe -g -feliminate-unused-debug-types "
+export LDFLAGS="-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed"
+export CPPFLAGS=""
+export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"
+#export OECORE_DISTRO_VERSION="4.1.15-2.0.1"
+#export OECORE_SDK_VERSION="4.1.15-2.0.1"
+export ARCH=arm
+export CROSS_COMPILE=arm-fslc-linux-gnueabi-
+
+# Append environment subscripts
+if [ -d "$OECORE_TARGET_SYSROOT/environment-setup.d" ]; then
+    for envfile in $OECORE_TARGET_SYSROOT/environment-setup.d/*.sh; do
+	    . $envfile
+    done
+fi
+if [ -d "$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
+    for envfile in $OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh; do
+	    . $envfile
+    done
+fi
